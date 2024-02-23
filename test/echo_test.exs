@@ -8,7 +8,7 @@ defmodule EchoTest do
   end
 
   test "should get the result when sending :ping" do
-    {ok, pid} = Echo.start(self())
+    {:ok, pid} = Echo.start(self())
 
     send(pid, :ping)
 
@@ -18,5 +18,11 @@ defmodule EchoTest do
     after
       1_000 -> assert(false)
     end
+  end
+
+  test "process must remain running after sending the message" do
+    {:ok, pid} = Echo.start(self())
+    send(pid, :ping)
+    assert(Process.alive?(pid))
   end
 end
