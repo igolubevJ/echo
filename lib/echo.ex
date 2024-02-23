@@ -1,4 +1,5 @@
 defmodule Echo do
+  @spec start(pid()) :: {:ok, pid()}
   def start(from) do
     pid = spawn(fn ->
       loop(from)
@@ -7,7 +8,11 @@ defmodule Echo do
     {:ok, pid}
   end
 
-  defp loop(_from) do
-    raise "Error -> not implemented"
+  defp loop(from) do
+    receive do
+      :ping -> send(from, :pong)
+    end
+
+    loop(from)
   end
 end
