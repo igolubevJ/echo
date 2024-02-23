@@ -1,18 +1,9 @@
 defmodule Echo do
-  @moduledoc """
-  Documentation for `Echo`.
-  """
+  def start() do
+    pid = spawn(fn ->
+      raise "Error -> not implemented"
+    end)
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Echo.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    {:ok, pid}
   end
 end
