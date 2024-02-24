@@ -34,7 +34,7 @@ defmodule EchoTest do
   test "should get the error when sending other message" do
     {:ok, pid} = Echo.start(self())
 
-    send(pid, PropCheck.BasicTypes.any())
+    send(pid, :some)
 
     receive do
       {:ok, :pong} -> assert(false)
