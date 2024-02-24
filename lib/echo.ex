@@ -24,6 +24,19 @@ defmodule Echo do
       iex> receive do msg -> msg end
       {:error}
   """
+
+  @doc """
+  The function starts the echo process.
+  The input takes the pid of the process that will receive responses
+  from the echo process.
+
+  The function returns tuple `{:ok, pid}`. Where is the `pid` is identificator of the
+  echo process.
+
+  #### Example
+      iex> {:ok, pid} = Echo.start(self())
+      {:ok, pid}
+  """
   @spec start(pid()) :: {:ok, pid()}
   def start(from) do
     pid = spawn(fn ->
