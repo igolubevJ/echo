@@ -10,7 +10,7 @@ defmodule Echo do
 
   defp loop(from) do
     receive do
-      :ping -> send(from, :pong)
+      :ping -> send(from, {:pong, node()})
     end
 
     loop(from)

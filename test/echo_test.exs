@@ -13,7 +13,12 @@ defmodule EchoTest do
     send(pid, :ping)
 
     receive do
-      :pong -> assert(true)
+      {response, node_name} ->
+        assert(is_atom(response))
+        assert(response == :pong)
+
+        assert(is_atom(node_name))
+        assert(String.contains?(to_string(node_name), "@"))
       _ -> assert(false)
     after
       1_000 -> assert(false)
