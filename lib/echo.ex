@@ -8,7 +8,7 @@ defmodule Echo do
     {:ok, pid}
   end
 
-  @spec ping(pid()) :: any()
+  @spec ping(pid()) :: {:pong, atom()} | {:error}
   def ping(pid) do
     send(pid, :ping)
     receive do
