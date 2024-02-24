@@ -30,4 +30,20 @@ defmodule EchoTest do
     send(pid, :ping)
     assert(Process.alive?(pid))
   end
+
+  test "should get the error when sending other message" do
+    {:ok, pid} = Echo.start(self())
+
+    send(pid, PropCheck.BasicTypes.any())
+
+    receive do
+      {:ok, :pong} -> assert(false)
+      {:error} -> assert(true)
+      _ -> assert(false)
+    after
+      1_000 -> assert(false)
+    end
+
+    assert(Process.alive?(pid))
+  end
 end

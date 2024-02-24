@@ -23,7 +23,8 @@ defmodule Echo.MixProject do
     [
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:propcheck, "~> 1.4", only: [:test, :dev]}
     ]
   end
 end
