@@ -46,4 +46,14 @@ defmodule EchoTest do
 
     assert(Process.alive?(pid))
   end
+
+  test "should get the result when cal Echo API ping command" do
+    {:ok, pid} = Echo.start(self())
+    {response, node_name} = Echo.ping(pid)
+
+    assert(is_atom(response))
+    assert(response == :pong)
+    assert(is_atom(node_name))
+    assert(String.contains?(to_string(node_name), "@"))
+  end
 end

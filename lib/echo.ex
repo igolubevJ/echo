@@ -8,6 +8,14 @@ defmodule Echo do
     {:ok, pid}
   end
 
+  @spec ping(pid()) :: any()
+  def ping(pid) do
+    send(pid, :ping)
+    receive do
+      response -> response
+    end
+  end
+
   defp loop(from) do
     receive do
       :ping -> send(from, {:pong, node()})
