@@ -46,6 +46,20 @@ defmodule Echo do
     {:ok, pid}
   end
 
+  @doc """
+  Function for interacting with the echo process.
+  The function accepts the echo process's pid and returns the response
+  from the process echo.
+
+  The response is a tuple containing a `:pong` atom and
+  atom of the node on which this Echo process is running.
+
+  #### Example
+      iex> {:ok, pid} = Echo.start(self())
+      {:ok, pid}
+      iex> Echo.ping(pid)
+      {:pong, :nonode@nohost}
+  """
   @spec ping(pid()) :: {:pong, atom()} | {:error}
   def ping(pid) do
     send(pid, :ping)
