@@ -43,7 +43,11 @@ defmodule EchoTest do
     after
       1_000 -> assert(false)
     end
+  end
 
+  test "process must remain running after sending error message" do
+    {:ok, pid} = Echo.start(self())
+    send(pid, :wtf)
     assert(Process.alive?(pid))
   end
 
