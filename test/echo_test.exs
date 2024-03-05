@@ -57,9 +57,7 @@ defmodule EchoTest do
     {:ok, pid} = Echo.start(self())
     {response, node_name} = Echo.ping(pid)
 
-    assert(is_atom(response))
-    assert(response == :pong)
-    assert(is_atom(node_name))
-    assert(String.contains?(to_string(node_name), "@"))
+    assert response == :pong
+    assert node_name in [node() | Node.list()]
   end
 end
