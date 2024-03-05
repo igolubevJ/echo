@@ -2,11 +2,6 @@ defmodule EchoTest do
   use ExUnit.Case
   doctest Echo
 
-  test "we can run the echo process" do
-    {:ok, pid} = Echo.start(self())
-    assert(is_pid(pid))
-  end
-
   test "should get the result when sending :ping" do
     {:ok, pid} = Echo.start(self())
 
@@ -14,12 +9,8 @@ defmodule EchoTest do
 
     receive do
       {response, node_name} ->
-        assert(is_atom(response))
-        assert(response == :pong)
-
-        assert(is_atom(node_name))
-        assert(String.contains?(to_string(node_name), "@"))
-
+        assert response == :pong
+        assert node_name in [node() | Node.list()]
       _ ->
         assert(false)
     after
@@ -38,13 +29,8 @@ defmodule EchoTest do
 
     send(pid, :some)
 
-    receive do
-      {:ok, :pong} -> assert(false)
-      :error -> assert(true)
-      _ -> assert(false)
-    after
-      1_000 -> assert(false)
-    end
+    assert_receive :error, 1_000
+    refute_receive {:ok, _}, 1_000
   end
 
   test "process must remain running after sending error message" do
