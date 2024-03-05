@@ -3,7 +3,7 @@ defmodule EchoTest do
   doctest Echo
 
   test "we can run the echo process" do
-    {:ok , pid} = Echo.start(self())
+    {:ok, pid} = Echo.start(self())
     assert(is_pid(pid))
   end
 
@@ -19,7 +19,9 @@ defmodule EchoTest do
 
         assert(is_atom(node_name))
         assert(String.contains?(to_string(node_name), "@"))
-      _ -> assert(false)
+
+      _ ->
+        assert(false)
     after
       1_000 -> assert(false)
     end
@@ -38,7 +40,7 @@ defmodule EchoTest do
 
     receive do
       {:ok, :pong} -> assert(false)
-      {:error} -> assert(true)
+      :error -> assert(true)
       _ -> assert(false)
     after
       1_000 -> assert(false)

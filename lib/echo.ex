@@ -14,7 +14,7 @@ defmodule Echo do
       iex> Echo.ping(pid)
       {:pong, :nonode@nohost}
 
-  If you send an erroneous message, Echo return error tuple `{:error}`.
+  If you send an erroneous message, Echo return error atom `:error`.
 
   #### Examples
       iex> {:ok, pid} = Echo.start(self())
@@ -22,7 +22,7 @@ defmodule Echo do
       iex> send(pid, :some)
       :some
       iex> receive do msg -> msg end
-      {:error}
+      :error
   """
 
   @doc """
@@ -39,9 +39,10 @@ defmodule Echo do
   """
   @spec start(pid()) :: {:ok, pid()}
   def start(from) do
-    pid = spawn(fn ->
-      loop(from)
-    end)
+    pid =
+      spawn(fn ->
+        loop(from)
+      end)
 
     {:ok, pid}
   end
@@ -60,9 +61,10 @@ defmodule Echo do
       iex> Echo.ping(pid)
       {:pong, :nonode@nohost}
   """
-  @spec ping(pid()) :: {:pong, atom()} | {:error}
+  @spec ping(pid()) :: {:pong, atom()} | :error
   def ping(pid) do
     send(pid, :ping)
+
     receive do
       response -> response
     end
@@ -71,7 +73,7 @@ defmodule Echo do
   defp loop(from) do
     receive do
       :ping -> send(from, {:pong, node()})
-      _ -> send(from, {:error})
+      _ -> send(from, :error)
     end
 
     loop(from)
